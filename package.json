@@ -1,0 +1,19 @@
+{
+  "name": "nko4-pandamonium",
+  "version": "0.0.0",
+  "description": "Pandamonium",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nko4/pandamonium.git"
+  },
+  "dependencies": {
+    "nko": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
