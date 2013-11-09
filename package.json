@@ -4,14 +4,20 @@
     "description": "Pandamonium",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:nko4/pandamonium.git"
   },
   "dependencies": {
-    "nko": "*"
+    "nko": "*",
+    "socket.io": "latest",
+    "send": "latest",
+    "gravatar": "latest",
+    "async": "latest",
+    "querystring": "latest"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -52,8 +58,5 @@
   },
   "engines": {
     "node": "0.10.x"
-  },
-  "scripts": {
-    "test": "grunt test"
   }
 }
