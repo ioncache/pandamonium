@@ -12,12 +12,14 @@
     "url": "git@github.com:nko4/pandamonium.git"
   },
   "dependencies": {
-    "nko": "*",
-    "socket.io": "latest",
-    "send": "latest",
-    "gravatar": "latest",
     "async": "latest",
-    "querystring": "latest"
+    "bower": "latest",
+    "gravatar": "latest",
+    "grunt": "~0.4.1",
+    "nko": "*",
+    "querystring": "latest",
+    "send": "latest",
+    "socket.io": "latest"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
