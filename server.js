@@ -27,7 +27,8 @@ var router = new director.http.Router({
         get: function (id) { question.get(this.res, id); }
       },
       get: question.list,
-      put: question.add
+      put: question.add,
+      post: question.add,
     }
   },
   get: staticContent
@@ -35,6 +36,11 @@ var router = new director.http.Router({
 
 
 function onRequest(request, response) {
+  request.chunks = [];
+  request.on('data', function (chunk) {
+    request.chunks.push(chunk.toString());
+  });
+
   router.dispatch(request, response, function (err) {
     if (err) {
       response.writeHead(404);
