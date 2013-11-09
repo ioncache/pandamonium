@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var qs = require('querystring');
 var Question = null; 
 
 function questions() {
@@ -39,25 +40,31 @@ function questions() {
 }
 
 function add() {
-    var question = new Question({
-        query: 'How long is the line at Burger Priest?',
-        questionLoc: [43.646036 , -79.409782],
-        askedLoc: [43.646228, -79.391853],
-        answeredDistance: 5,
-        expires: Date.now() + (60*60*1000)
-    });
-    question.save(function (err, question) {
-          if (err) // TODO handle the error
-          console.log('Saved' + question);
-    });
+  var params = this.req.body
+  var question = new Question({
+      query: params.q,
+      questionLoc: [ params.qlat, params.qlong],
+      askedLoc: [ params.alat, params.along],
+      answeredDistance: parmas.dist,
+      expires: Date.now() + (60*60*1000)
+  });
+  question.save(function (err, question) {
+    if (err) { // TODO handle the error
+      console.log(err);
+    }
+    console.log('Saved' + question);
+  });
+  this.res.writeHead(201, { 'Location': 'http://' + this.req.headers.host + this.req.url + '/' + question._id });
+  this.res.end();
 }
 
 function list() {
   var res = this.res;
+  console.log(this.res.body);
   var url = require('url');
   var query = url.parse(this.req.url, true).query;
 
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.writeHead(200, { 'Content-Type': 'application/json' })
   console.log('Listing questions near ' + query.lat + ' ' + query.long);
 
   var point = { type : "Point", coordinates : [Number(query.lat), Number(query.long)] };
@@ -66,13 +73,12 @@ function list() {
       console.log(err);
       res.end('Error');
     }// TODO handle err
-    console.log(stats);
     res.end(JSON.stringify(questions));
   });
 }
 
 function get(res, id) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.writeHead(200, { 'Content-Type': 'application/json' })
   console.log('Getting question ' + id);
   Question.findById(id, function (err, questions) {
     if (err) {
