@@ -5,8 +5,9 @@ var app = angular.module('pandamoniumApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute'
-])
-.config(function ($routeProvider) {
+]);
+
+app.config(function ($routeProvider) {
     $routeProvider
     .when('/', {
         templateUrl: 'views/main.html',
@@ -19,22 +20,6 @@ var app = angular.module('pandamoniumApp', [
     .otherwise({
         redirectTo: '/'
     });
-});
-
-app.service('AuthObj', function($rootScope) {
-  var loggedIn = "Login";
-  return {
-    login: function(auth0){
-      loggedIn="Logout"
-    },
-    logout: function(){
-      $window.location.href = 'https://pandamonium.auth0.com/logout?returnTo=' + window.location.href
-      loggedIn="Login";
-    },
-    getLoginStatus: function(){
-      return loggedIn;
-    }
-  }
 });
 
 app.run(['$rootScope', '$cookieStore', function($rootScope, $cookieStore) {

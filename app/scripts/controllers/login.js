@@ -32,3 +32,19 @@ app.controller('LoginCtrl', function ($cookieStore, $scope, $rootScope, $window,
         $scope.loginButtonText = newVal;
     });
 });
+
+app.service('AuthObj', function($rootScope) {
+  var loggedIn = "Login";
+  return {
+    login: function(auth0){
+      loggedIn="Logout"
+    },
+    logout: function(){
+      $window.location.href = 'https://pandamonium.auth0.com/logout?returnTo=' + window.location.href
+      loggedIn="Login";
+    },
+    getLoginStatus: function(){
+      return loggedIn;
+    }
+  }
+});
