@@ -2,6 +2,11 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
 
+/* apply a natural box layout model to all elements */
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -13,6 +18,18 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 body {
     padding-top: 20px;
     padding-bottom: 20px;
+    overflow: hidden;
+    background: url('/images/background_01.jpg') no-repeat top center;
+    background-size: 100vw 100vh;
+}
+
+.container {
+    height: 94vh;
+    width: 96vw;
+    max-height: 94vh;
+    max-width: 95vw;
+    margin: 3vh 2vw;
+    padding: 0;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -50,12 +67,32 @@ body {
 /* Main marketing message and sign up button */
 .jumbotron {
     text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-}
+    border-bottom: 1px solid rgba(228, 228, 228, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+    .btn {
+        font-size: 16px;
+    }
+
+    input {
+        background-color: rgba(255, 255, 255, 0.8);
+
+        &::-webkit-input-placeholder {
+            color: #666;
+        }
+
+        &:-moz-placeholder {
+            color: #666;
+        }
+
+        &::-moz-placeholder {
+            color: #666;
+        }
+
+        &:-ms-input-placeholder {
+            color: #666;
+        }
+    }
 }
 
 /* Supporting marketing content */
@@ -69,10 +106,6 @@ body {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-    .container {
-        max-width: 730px;
-    }
-
     /* Remove the padding we set earlier */
     .header,
     .marketing,
@@ -88,4 +121,37 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
+}
+
+.mainAskBox {
+    max-height: 27%;
+    margin-bottom: 4vh;
+    line-height: auto;
+    padding: 2% 0;
+}
+
+.answers {
+    max-height: 69%;
+    overlfow-x: hidden;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.answerList {
+    background-color: transparent;
+}
+
+.answer {
+    background-color: transparent;
+}
+
+#askInput {
+    display: inline-block;
+    max-width: 78%;
+    margin: 0 2%;
+}
+
+#askButton {
+    max-width: 16%;
+    margin-right: 2%;
 }
