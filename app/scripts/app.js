@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pandamoniumApp', [
+var app = angular.module('pandamoniumApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
@@ -12,7 +12,12 @@ angular.module('pandamoniumApp', [
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/callback', {
+        templateUrl: 'views/callback.html',
+        controller: 'CallbackCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
   });
+
