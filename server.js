@@ -9,31 +9,44 @@ var async          = require('async'),
     staticContent  = require('send');
 
 var isProduction = (process.env.NODE_ENV === 'production');
+
+var http = require('http');
+var question = require('./backend/question');
+var director = require('director');
+var staticContent  = require('send');
 var port = (isProduction ? 80 : 8000);
 
-var routeHandler = function(request, response) {
-    // http://blog.nodeknockout.com/post/35364532732/protip-add-the-vote-ko-badge-to-your-app
-    //var voteko = '<iframe src="http://nodeknockout.com/iframe/pandamonium" frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe>';
+function staticContent() {
+  staticContent(this.req, this.req.url).root('dist').pipe(response);
+}
 
-    if (request.url === "/api") {
-    } else {
-        staticContent(request, request.url).root('dist').pipe(response);
+var router = new director.http.Router({
+  '/api/v1': {
+    '/question': {
+      '/(\\w+)': {
+        get: function (id) { question.get(this.res, id); }
+      },
+      get: question.list,
+      put: question.add
     }
-};
-
-var app = http.createServer(routeHandler);
-    //io  = socketio.listen(app);
-
-app.listen(port, function(err) {
-    if (err) { console.error(err); process.exit(-1); }
-  
-    // if run as root, downgrade to the owner of this file
-    if (process.getuid() === 0) {
-        require('fs').stat(__filename, function(err, stats) {
-            if (err) { return console.error(err); }
-            process.setuid(stats.uid);
-        });
-    }
-
-    console.log('Server running at http://0.0.0.0:' + port + '/');
+  },
+  get: staticContent
 });
+
+
+function onRequest(request, response) {
+  router.dispatch(request, response, function (err) {
+    if (err) {
+      response.writeHead(404);
+      response.end();
+    }
+  });
+}
+
+function serverError(err) {
+  if (err) { console.error(err); process.exit(-1); }
+
+  console.log('Server running at http://0.0.0.0:' + port + '/');
+}
+
+http.createServer(onRequest).listen(port, serverError);
