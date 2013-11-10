@@ -20,6 +20,7 @@
     "mongoose": "latest",
     "nko": "*",
     "querystring": "latest",
+    "restler": "latest",
     "send": "latest",
     "socket.io": "latest",
     "url": "latest"
