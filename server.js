@@ -23,8 +23,24 @@ function staticContent() {
 var router = new director.http.Router({
   '/api/v1': {
     '/question': {
-      '/(\\w+)': {
-        get: function (id) { question.get(this.res, id); }
+      '/:id': {
+        '/:answerId': {
+          '/downvote': {
+            get: question.answerDownvote,
+          },
+          '/upvote': {
+            get: question.answerUpvote,
+          },
+        },
+        '/downvote': {
+          get: question.downvote,
+        },
+        '/upvote': {
+          get: question.upvote,
+        },
+        get: question.get,
+        put: question.addAnswer,
+        post: question.addAnswer
       },
       get: question.list,
       put: question.add,
@@ -34,8 +50,9 @@ var router = new director.http.Router({
   get: staticContent
 });
 
-
 function onRequest(request, response) {
+  this.request = request;
+  this.response = response;
   request.chunks = [];
   request.on('data', function (chunk) {
     request.chunks.push(chunk.toString());

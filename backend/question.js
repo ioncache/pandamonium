@@ -58,17 +58,84 @@ function add() {
   this.res.end();
 }
 
-function list() {
+function vote(id, amount, model) {
+  model.findById(id, function (err, item) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }// TODO handle err
+    item.meta.votes += amount;
+    item.save(function (err, question) {
+      if (err) { // TODO handle the error
+        console.log(err);
+      }
+      console.log('Saved upvote on ' + id);
+    });
+  });
+}
+
+function voteAnswer(id, answerId, amount) {
+  Question.findOne({_id: id, 'answers._id': answerId}, {'answers.$': 1}, function(err, question) {
+    question.answers[0].meta.votes += amount;
+    question.save(function (err, question) {
+      if (err) { // TODO handle the error
+        console.log(err);
+      }
+      console.log('Saved upvote on answer ' + id);
+    });
+  });
+}
+
+function redirect(id, res, req) {
+  res.writeHead(201, { 'Location': 'http://' + req.headers.host + req.url + '/' + id });
+  res.end();
+}
+
+function answerUpvote(id, answerId) {
+  voteAnswer(id, answerId, 1);
+  redirect(id, this.res, this.req);
+}
+
+function answerDownvote(id) {
+  voteAnswer(id, answerId, -1);
+  redirect(id, this.res, this.req);
+}
+
+function upvote(id) {
+  vote(id, 1, Question);
+  redirect(id, this.res, this.req);
+}
+
+function downvote(id) {
+  vote(id, -1, Question);
+  redirect(id, this.res, this.req);
+}
+
+function addAnswer(id) {
   var res = this.res;
-  console.log(this.res.body);
-  var url = require('url');
-  var query = url.parse(this.req.url, true).query;
+  var req = this.req;
+  var params = req.body
+  Question.findById(id, function (err, question) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }// TODO handle err
+    question.answer(params.answer, [params.alat, params.along])
+    question.save(function (err, question) {
+      if (err) { // TODO handle the error
+        console.log(err);
+      }
+      console.log('Adding answer for ' + question);
+    });
+    redirect(id, res, req);
+  });
+}
 
-  res.writeHead(200, { 'Content-Type': 'application/json' })
-  console.log('Listing questions near ' + query.lat + ' ' + query.long);
+function geoList(res, lat, long) {
+  console.log('Listing questions near ' + lat + ' ' + long);
 
-  var point = { type : "Point", coordinates : [Number(query.lat), Number(query.long)] };
-  Question.geoNear(point, { spherical : true, maxDistance : 5 }, function(err, questions, stats) {
+  var point = { type : "Point", coordinates : [lat, long] };
+  Question.geoNear(point, { limit: 20, spherical : true, maxDistance : 5 }, function(err, questions, stats) {
     if (err) {
       console.log(err);
       res.end('Error');
@@ -77,7 +144,32 @@ function list() {
   });
 }
 
-function get(res, id) {
+function simpleList(res) {
+  console.log('Listing questions');
+  Question.find(function (err, questions) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }
+    res.end(JSON.stringify(questions));
+  }).limit(20);
+}
+
+function list() {
+  var res = this.res;
+  var url = require('url');
+  var query = url.parse(this.req.url, true).query;
+
+  res.writeHead(200, { 'Content-Type': 'application/json' })
+  if (query.lat != null && query.long != null) {
+    geoList(res, Number(query.lat), Number(query.long));
+  } else {
+    simpleList(res);
+  }
+}
+
+function get(id) {
+  res = this.res;
   res.writeHead(200, { 'Content-Type': 'application/json' })
   console.log('Getting question ' + id);
   Question.findById(id, function (err, questions) {
@@ -97,3 +189,8 @@ db.once('open', questions);
 module.exports.list = list;
 module.exports.add = add;
 module.exports.get = get;
+module.exports.addAnswer = addAnswer;
+module.exports.upvote = upvote;
+module.exports.downvote = downvote;
+module.exports.answerUpvote = answerUpvote;
+module.exports.answerDownvote = answerDownvote;
