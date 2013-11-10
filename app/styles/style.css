@@ -99,6 +99,7 @@ body {
   margin: 0;
   position: relative;
   top: 13px;
+  margin-left: 30px;
 }
 
 .locationSelect {
