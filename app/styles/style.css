@@ -30,6 +30,9 @@ body {
   width: inherit;
 }
 
+.message {
+  cursor: pointer;
+}
 
 .message-left {
   width: inherit;
