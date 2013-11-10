@@ -7,11 +7,12 @@ function list(lat,lng) {
     host: 'api.foursquare.com',
     port: 443,
     path: '/v2/venues/explore?' + 
-      'client_id=&' +
-      'client_secret=&' +
-      'v=20131110&' +
-      'll=' + lat + "," + lng 
+      '&client_id=' + process.env.FOURSQ_CLIENT_ID + 
+      '&client_secret=' + process.env.FOURSQ_CLIENT_SECRET + 
+      '&v=20131110' +
+      '&ll=' + lat + "," + lng 
   };
+
   res = this.res;
   res.writeHead(200, { 'Content-Type': 'application/json' })
   
