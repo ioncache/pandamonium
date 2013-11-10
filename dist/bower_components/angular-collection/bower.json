@@ -1,5 +1,7 @@
 {
-  "author": "Tomasz Kuklis",
+  "author": {
+    "name": "Tomasz Kuklis"
+  },
   "name": "angular-collection",
   "description": "Angular Collection - The Collection module for AngularJS",
   "version": "0.4.0",
@@ -17,5 +19,9 @@
   ],
   "dependencies": {
     "angular": ">= 1.0.2"
-  }
+  },
+  "gitHead": "850af5cba5946c7531905e52d9f249893326cfb6",
+  "readme": "## AngularCollection\n\n[![Build Status](https://travis-ci.org/tomkuk/angular-collection.png?branch=master)](https://travis-ci.org/tomkuk/angular-collection)\n\n![angular-collection.js](http://i46.tinypic.com/726m80.jpg)\n\n## Description\n\nAngularCollection is a collection module for AngularJS.\n\n## Installation\n\nangular-collection is a [bower](https://github.com/twitter/bower) [component](http://sindresorhus.com/bower-components/) you should be able to install it by running:\n\n`bower install angular-collection`\n\nor if you already have a bower based project you can add angular-collection to your dependency list in `bower.json`\n\n```js\n \"dependencies\": {\n    ...\n    \"angular-collection\": \"0.x.x\"\n    ...\n  }\n```\n\n## API\n\n+ add(obj, options)\n\n+ addAll(array, options)\n\n+ sort()\n\n+ get(obj | id)\n\n+ update(obj)\n\n+ remove(obj)\n\n+ removeAll()\n\n+ last()\n\n+ at(index)\n\n+ size()\n\n+ all()\n\n##Usage\n\n####Specify dependencies\n\n```js\nvar app = angular.module('myApp', ['ngCollection']);\n```\n\n####Define new factory\n\n```js\napp.factory(\"TodoCollection\", function($collection){\n\tvar TodoCollection = $collection;\n\n\treturn TodoCollection;\n})\n```\n\n####Get collection instance\n\n```js\nvar todos = TodoCollection.getInstance();\n```\n\n####Add new records\n\n`_id` property will be generated and attached to each new record.\n\n```js\ntodos.add({ title: \"todo1\" });\ntodos.add({ title: \"todo2\" });\n```\n\n###Get a single record\n\nGet a record from the collection, specified by an id or by passing in a record.\n\n```js\n\tvar todo = todos.get(10);\n```\n\n####Update a single record\n\nIf a record is already in the collection, its attributes will be merged.\n\n```js\n\ttodos.update({ id: 1, title: 'todos3' });\n```\n\n####Remove a record from the collection\n\n```js\n\ttodos.remove({ id: 1, title: 'todos3' });\n```\n\n####Get a single record, spcified by index\n\n```js\n\ttodos.at(1);\n```\n\n## Options\n\nYou can pass a single parameter to `getInstance` to specify additional options.\n\n```js\nvar todos = TodoCollection.getInstance(options);\n```\nCurrently the only options available are `idAttribute` and `comparator`.\n\n```js\nvar todos = TodoCollection.getInstance({idAttribute: 'id', comparator: '-created_at'});\n```\n\n##Contributors:\n\n* [@tomkuk](http://github.com/tomkuk)\n* [@mkuklis](http://github.com/mkuklis)\n* [@falsetto](http://github.com/falsetto)\n* [@jseppi](https://github.com/jseppi)\n* [@PascalPrecht](https://github.com/PascalPrecht)\n* [@warnerandy](https://github.com/warnerandy)\n* [@ajoslin](https://github.com/ajoslin)\n* [@damrbaby](https://github.com/damrbaby)\n* [@failpunk](https://github.com/failpunk)\n\n\n##License:\n<pre>\nThe MIT License\n</pre>\n",
+  "readmeFilename": "README.md",
+  "_id": "angular-collection@0.4.0"
 }

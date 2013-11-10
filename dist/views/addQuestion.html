@@ -2,11 +2,12 @@
 <div class="container read-question show">
   <div class="row" style="margin-bottom: 20px">
     <div class="col-xs-12">
-      <input ui-select2="locationSelect" class="locationSelect form-control" placeholder="What location are you interested in?">
+      <input id="newLocation" placeholder="What location are you interested in?" ng-controller="GeoLocationCtrl" ng-model="GeoService" ng-change="change()" class="form-control">
       <textarea id="newQuestion" class="form-control disable-resize" rows="6" placeholder="Type in your question here..."></textarea>
+      <input id="qlat" type="hidden" value="">
+      <input id="qlng" type="hidden" value="">
     </div>
   </div>
 </div>
-<div ng-controller="GeoLocationCtrl">
-</div>
+
 <!-- ask question screen ends -->
