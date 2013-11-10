@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var qs = require('querystring');
 var Question = null; 
 
 function questions() {
@@ -28,7 +27,7 @@ function questions() {
 
     questionSchema.index({ "questionLoc" : "2dsphere"});
 
-    questionSchema.methods.answer = function (body, loc) {
+    questionSchema.methods.answer = function(body, loc) {
         this.answers.push({
             body: body,
             answeredLoc: loc
@@ -49,9 +48,7 @@ function add() {
       expires: Date.now() + (60*60*1000)
   });
   question.save(function (err, question) {
-    if (err) { // TODO handle the error
-      console.log(err);
-    }
+    if (err) // TODO handle the error
     console.log('Saved' + question);
   });
   this.res.writeHead(201, { 'Location': 'http://' + this.req.headers.host + this.req.url + '/' + question._id });
@@ -60,15 +57,10 @@ function add() {
 
 function vote(id, amount, model) {
   model.findById(id, function (err, item) {
-    if (err) {
-      console.log(err);
-      res.end('Error');
-    }// TODO handle err
+    if (err) // TODO handle err
     item.meta.votes += amount;
     item.save(function (err, question) {
-      if (err) { // TODO handle the error
-        console.log(err);
-      }
+      if (err) // TODO handle the error
       console.log('Saved upvote on ' + id);
     });
   });
@@ -78,9 +70,7 @@ function voteAnswer(id, answerId, amount) {
   Question.findOne({_id: id, 'answers._id': answerId}, {'answers.$': 1}, function(err, question) {
     question.answers[0].meta.votes += amount;
     question.save(function (err, question) {
-      if (err) { // TODO handle the error
-        console.log(err);
-      }
+      if (err) // TODO handle the error
       console.log('Saved upvote on answer ' + id);
     });
   });
@@ -96,7 +86,7 @@ function answerUpvote(id, answerId) {
   redirect(id, this.res, this.req);
 }
 
-function answerDownvote(id) {
+function answerDownvote(id, answerId) {
   voteAnswer(id, answerId, -1);
   redirect(id, this.res, this.req);
 }
@@ -111,46 +101,35 @@ function downvote(id) {
   redirect(id, this.res, this.req);
 }
 
+function savingLog(err, question, msg) {
+  if (err) // TODO handle the error
+  console.log('Adding answer for ' + question);
+}
+
 function addAnswer(id) {
   var res = this.res;
   var req = this.req;
   var params = req.body
   Question.findById(id, function (err, question) {
-    if (err) {
-      console.log(err);
-      res.end('Error');
-    }// TODO handle err
+    if (err) // TODO handle err
     question.answer(params.answer, [params.alat, params.along])
-    question.save(function (err, question) {
-      if (err) { // TODO handle the error
-        console.log(err);
-      }
-      console.log('Adding answer for ' + question);
-    });
+    question.save(savingLog);
     redirect(id, res, req);
   });
 }
 
 function geoList(res, lat, long) {
-  console.log('Listing questions near ' + lat + ' ' + long);
-
-  var point = { type : "Point", coordinates : [lat, long] };
-  Question.geoNear(point, { limit: 20, spherical : true, maxDistance : 5 }, function(err, questions, stats) {
-    if (err) {
-      console.log(err);
-      res.end('Error');
-    }// TODO handle err
+  Question.geoNear({ type : "Point", coordinates : [lat, long] }, { limit: 20, spherical : true, maxDistance : 5 }, function(err, questions, stats) {
+    if (err) // TODO handle err
+    console.log('Listing questions near ' + lat + ' ' + long);
     res.end(JSON.stringify(questions));
   });
 }
 
 function simpleList(res) {
-  console.log('Listing questions');
   Question.find(function (err, questions) {
-    if (err) {
-      console.log(err);
-      res.end('Error');
-    }
+    if (err) // TODO handle err
+    console.log('Listing questions');
     res.end(JSON.stringify(questions));
   }).limit(20);
 }
@@ -171,12 +150,9 @@ function list() {
 function get(id) {
   res = this.res;
   res.writeHead(200, { 'Content-Type': 'application/json' })
-  console.log('Getting question ' + id);
   Question.findById(id, function (err, questions) {
-    if (err) {
-      console.log(err);
-      res.end('Error');
-    }// TODO handle err
+    if (err) // TODO handle err
+    console.log('Getting question ' + id);
     res.end(JSON.stringify(questions));
   });
 }
