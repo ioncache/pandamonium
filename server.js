@@ -13,6 +13,7 @@ var async          = require('async'),
 
 // our modules
 var question       = require('./backend/question');
+var venue          = require('./backend/venue');
 
 var isProduction = (process.env.NODE_ENV === 'production');
 var port         = isProduction ? 80 : 8000;
@@ -64,6 +65,13 @@ var router = new director.http.Router({
             get: question.list,
             put: question.add,
             post: question.add,
+        },
+        '/venues/explore': {
+          '/:lat': {
+            '/:lng': {
+              get: venue.list            
+            }
+          }
         }
     },
     '/.*': {
