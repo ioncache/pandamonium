@@ -64,6 +64,12 @@ var router = new director.http.Router({
             get: question.list,
             put: question.add,
             post: question.add,
+        },
+        '/user': {
+            '/:id': {
+                get: question.listByUser
+            },
+            get: question.listByUser
         }
     },
     '/.*': {

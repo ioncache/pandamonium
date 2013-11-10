@@ -4,6 +4,7 @@ var _ = require('underscore');
 var Question = null; 
 
 function questions() {
+    var ObjectId = mongoose.Schema.Types.ObjectId;
     var questionSchema = mongoose.Schema({
         query: String,
         date: { type: Date, default: Date.now },
@@ -11,6 +12,8 @@ function questions() {
         askedLoc: [Number],
         answeredDistance: Number, // Distance in m from question location that answerer can be
         expires: Date,
+        userID: ObjectId,
+        username: String,
         meta: {
             votes: { type: Number, default: 0 },
             favs: { type: Number, default: 0 },
@@ -50,14 +53,16 @@ function add() {
       answeredDistance: params.dist,
       expires: Date.now() + (60*60*1000)
   });
+  if (params.userid != null) {
+      question.userId = params.userid;
+  }
   question.save(function (err, question) {
     if (err) { // TODO handle the error
         console.log(err);
     }
     console.log('Saved: ' + question);
   });
-  this.res.writeHead(201, { 'Location': 'http://' + this.req.headers.host + this.req.url + '/' + question._id });
-  this.res.end();
+  this.res.writeHead(201, { 'Location': 'http://' + this.req.headers.host + this.req.url + '/' + question._id }); this.res.end();
 }
 
 function vote(id, amount, model) {
@@ -157,6 +162,21 @@ function list() {
   } else {
     simpleList(res);
   }
+}
+
+function listByUser(id) {
+  Question.find({ userId: id}, function (err, questions) {
+    if (err) { // TODO handle err
+        console.log(err);
+    }
+
+    _.each(questions, function(e, i) {
+        e.id = e._id;
+    });
+
+    console.log('Listing questions for userid ' + id);
+    res.end(JSON.stringify(questions));
+  }).limit(20);
 }
 
 function get(id) {
