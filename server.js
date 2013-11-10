@@ -70,7 +70,7 @@ var router = new director.http.Router({
             staticContent(this.req, this.res);
         }
     }
-  });
+});
 
 function onRequest(request, response) {
     this.request = request;
