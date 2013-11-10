@@ -69,7 +69,10 @@ var router = new director.http.Router({
         '/venues/explore': {
           '/:lat': {
             '/:lng': {
-              get: venue.list            
+              get: venue.list,
+              '/:query': {
+                get: venue.list,
+              }          
             }
           }
         }

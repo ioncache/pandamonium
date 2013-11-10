@@ -2,17 +2,19 @@
 
 var app = angular.module('pandamoniumApp');
 
-app.controller('MainCtrl', function ($scope) {
-  // Built-in support for ajax
-   $scope.locationSelect = {
+app.controller('MainCtrl', function ($scope,$sanitize,$rootScope) {
+  $scope.locationSelect = {
      minimumInputLength: 1,
      ajax: {
-       url: "/api/v1/venues/explore/43.6460675/-79.39230429999999",
+       quietMillis: 50,
+       url: function(data){
+         if($rootScope.coords){
+           return "/api/v1/venues/explore/"+$rootScope.coords.latitude+"/"+$rootScope.coords.longitude+"/" + $sanitize(data);
+         }
+       },
        data: function (term, page) {
-         return {};
        },
        results: function (data, page) {
-         console.log(JSON.parse(data).response.groups[0].items)
          return {"results": JSON.parse(data).response.groups[0].items};
        }
      },
