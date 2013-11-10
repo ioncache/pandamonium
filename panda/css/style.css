@@ -1,0 +1,96 @@
+body {
+  padding-top: 50px;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.container.no-left-right-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.list-group.no-rounded-corners { }
+
+.list-group.no-rounded-corners .list-group-item:first-child {
+  border-radius: 0;
+}
+
+.list-group.no-rounded-corners .list-group-item:last-child {
+  border-radius: 0;
+}
+
+.user-avatar {
+  margin: 0;
+  width: inherit;
+}
+
+
+.message-left {
+  width: inherit;
+  padding-right: 0;
+  padding-left: 5px;
+}
+
+.message-info {
+  /*width: inherit;*/
+}
+
+.message-body {
+  padding-left: 10px;
+}
+
+.message-body > .row {
+  margin: 0;
+}
+
+.message-body > .row.message-body-head > h6 {
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.message-body > .row.message-body-content > p {
+  font-size: 12px;
+}
+
+.message-body > .row.message-body-footer { }
+
+.message-body > .row.message-body-footer > span {
+  margin-right: 15px;
+}
+
+
+.container.read-question {
+  padding-top: 20px;
+}
+
+.user-message-info {
+  margin: 0;
+  font-weight: bold;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.reply-img {
+  width: 100%;
+}
+
+.disable-resize {
+  resize: none;
+}
+
+.sub-nav .filter {
+  margin: 5px 0;
+}
