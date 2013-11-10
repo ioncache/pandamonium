@@ -16,6 +16,7 @@
           <link rel="stylesheet" href="styles/bootstrap-theme.css">
           <link rel="stylesheet" href="styles/font-awesome.css">
           <link rel="stylesheet" href="styles/style.css">
+          <link rel="stylesheet" href="bower_components/select2/select2.css">          
           <!-- endbuild -->
     </head>
     <body ng-app="pandamoniumApp">
@@ -90,6 +91,8 @@
         <script src="bower_components/sass-bootstrap/js/tab.js"></script>
         <script src="bower_components/sass-bootstrap/js/tooltip.js"></script>
         <script src="bower_components/sass-bootstrap/js/popover.js"></script>
+        <script src="bower_components/select2/select2.js"></script>
+        <script type="text/javascript" src="bower_components/angular-ui-select2/src/select2.js"></script>        
         <!-- endbuild -->
 
         <!-- build:js scripts/modules.js -->
@@ -109,10 +112,12 @@
 
         <script src="scripts/resources/baseResource.js"></script>
         <script src="scripts/resources/questionResource.js"></script>
-
+        <script src="scripts/resources/geoService.js"></script>
+        
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/addQuestion.js"></script>
         <script src="scripts/controllers/callback.js"></script>
+        <script src="scripts/controllers/geoLocation.js"></script>        
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/navBar.js"></script>
         <script src="scripts/controllers/question.js"></script>
