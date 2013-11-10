@@ -1,7 +1,7 @@
 <div ng-controller="RecentQuestionsCtrl">
     <div class="answerList list-group">
-        <div class="answer list-group-item" ng-repeat="question in questions">
-            {{question.data.id}}: {{question.data.text}}
+        <div id="question_{{question.id}}" class="answer list-group-item" ng-repeat="question in questions track by question.id">
+            {{question.query}}
         </div>
     </div>
 </div>

@@ -23,6 +23,7 @@
     "restler": "latest",
     "send": "latest",
     "socket.io": "latest",
+    "underscore": "latest",
     "url": "latest"
   },
   "devDependencies": {

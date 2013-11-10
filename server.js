@@ -16,7 +16,7 @@ var question       = require('./backend/question');
 
 var isProduction = (process.env.NODE_ENV === 'production');
 var port         = isProduction ? 80 : 8000;
-var staticFolder = isProduction ? '/home/deploy/current/dist' : 'dist';
+var staticFolder = isProduction ? '/home/deploy/current/dist' : 'app';
 
 var staticContent = function(req, res) {
 

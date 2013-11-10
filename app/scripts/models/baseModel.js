@@ -14,8 +14,8 @@ app.factory('BaseModel', function (BaseResource) {
         var self = this;
 
         if (this.hasOwnProperty('resource')) {
-            this.resource.query( function(result) {
-                self.data = result.data;
+            this.resource.get(function(result) {
+                self.data = result;
             });
         }
     };

@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var _ = require('underscore');
+
 var Question = null; 
 
 function questions() {
@@ -23,6 +25,7 @@ function questions() {
                 favs: { type: Number, default: 0 },
             }
         }],
+        id: String
     });
 
     questionSchema.index({ "questionLoc" : "2dsphere"});
@@ -39,17 +42,19 @@ function questions() {
 }
 
 function add() {
-  var params = this.req.body
+  var params = this.req.body;
   var question = new Question({
       query: params.q,
       questionLoc: [ params.qlat, params.qlong],
       askedLoc: [ params.alat, params.along],
-      answeredDistance: parmas.dist,
+      answeredDistance: params.dist,
       expires: Date.now() + (60*60*1000)
   });
   question.save(function (err, question) {
-    if (err) // TODO handle the error
-    console.log('Saved' + question);
+    if (err) { // TODO handle the error
+        console.log(err);
+    }
+    console.log('Saved: ' + question);
   });
   this.res.writeHead(201, { 'Location': 'http://' + this.req.headers.host + this.req.url + '/' + question._id });
   this.res.end();
@@ -128,7 +133,14 @@ function geoList(res, lat, long) {
 
 function simpleList(res) {
   Question.find(function (err, questions) {
-    if (err) // TODO handle err
+    if (err) { // TODO handle err
+        console.log(err);
+    }
+
+    _.each(questions, function(e, i) {
+        e.id = e._id;
+    });
+
     console.log('Listing questions');
     res.end(JSON.stringify(questions));
   }).limit(20);
@@ -152,6 +164,10 @@ function get(id) {
   res.writeHead(200, { 'Content-Type': 'application/json' })
   Question.findById(id, function (err, questions) {
     if (err) // TODO handle err
+    questions = _.map(questions, function(v, k, l) {
+        v.id = v._id;
+        return v;
+    });
     console.log('Getting question ' + id);
     res.end(JSON.stringify(questions));
   });

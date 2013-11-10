@@ -4,7 +4,8 @@ var app = angular.module('pandamoniumApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'btford.socket-io'
 ]);
 
 app.config(function ($routeProvider) {
