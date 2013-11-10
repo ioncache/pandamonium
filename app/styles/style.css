@@ -101,6 +101,10 @@ body {
   top: 13px;
 }
 
+.locationSelect {
+  margin-bottom: 10px;
+}
+
 @media ( min-width: 768px ) {
   .voteControl {
     float: right;
