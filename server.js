@@ -15,7 +15,8 @@ var async          = require('async'),
 var question       = require('./backend/question');
 
 var isProduction = (process.env.NODE_ENV === 'production');
-var port = (isProduction ? 80 : 8000);
+var port         = isProduction ? 80 : 8000;
+var staticFolder = isProduction ? '/home/deploy/current/dist' : 'dist';
 
 var staticContent = function(req, res) {
 
@@ -31,7 +32,7 @@ var staticContent = function(req, res) {
     }
 
     send(req, url.parse(req.url).pathname)
-    .root('dist')
+    .root(staticFolder)
     .on('error', staticError)
     .on('directory', staticRedirect)
     .pipe(res);
