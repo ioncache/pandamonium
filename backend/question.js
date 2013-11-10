@@ -184,11 +184,14 @@ function get(id) {
   res = this.res;
   res.writeHead(200, { 'Content-Type': 'application/json' })
   Question.findById(id, function (err, questions) {
-    if (err) {} // TODO handle err
-    questions = _.map(questions, function(v, k, l) {
-        v.id = v._id;
-        return v;
-    });
+    if (err) {
+        console.log(err);
+    }
+
+    if ( questions) {
+        questions.id = questions._id;
+    }
+
     console.log('Getting question ' + id);
     res.end(JSON.stringify(questions));
   });
