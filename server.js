@@ -18,7 +18,6 @@ var isProduction = (process.env.NODE_ENV === 'production');
 var port = (isProduction ? 80 : 8000);
 
 var staticContent = function(req, res) {
-    //console.log(url.parse(req.url));
 
     var staticError = function(err) {
         res.statusCode = err.status || 500;
@@ -39,28 +38,50 @@ var staticContent = function(req, res) {
 }
 
 var router = new director.http.Router({
+
     '/api/v1': {
         '/question': {
-            '/(\\w+)': {
-                get: function (id) { question.get(this.res, id); }
+            '/:id': {
+                '/:answerId': {
+                  '/downvote': {
+                        get: question.answerDownvote,
+                  },
+                  '/upvote': {
+                        get: question.answerUpvote,
+                  },
+                },
+                '/downvote': {
+                    get: question.downvote,
+                },
+                '/upvote': {
+                    get: question.upvote,
+                },
+                get: question.get,
+                put: question.addAnswer,
+                post: question.addAnswer
             },
             get: question.list,
-            put: question.add
+            put: question.add,
+            post: question.add,
         }
     },
     '/.*': {
         get: function() {
-            console.log(this.req.url);
             staticContent(this.req, this.res);
         }
     }
-});
+  });
 
 function onRequest(request, response) {
+    this.request = request;
+    this.response = response;
+    request.chunks = [];
+    request.on('data', function (chunk) {
+        request.chunks.push(chunk.toString());
+    });
+  
     router.dispatch(request, response, function (err) {
-        console.log(request.url);
         if (err) {
-            console.log(err);
             response.writeHead(err.status, { 'Content-Type': 'text/plain' });
             response.end(err.message);
         }

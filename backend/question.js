@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var qs = require('querystring');
 var Question = null; 
 
 function questions() {
@@ -39,17 +40,119 @@ function questions() {
 }
 
 function add() {
-    var question = new Question({
-        query: 'How long is the line at Burger Priest?',
-        questionLoc: [43.646036 , -79.409782],
-        askedLoc: [43.646228, -79.391853],
-        answeredDistance: 5,
-        expires: Date.now() + (60*60*1000)
+  var params = this.req.body
+  var question = new Question({
+      query: params.q,
+      questionLoc: [ params.qlat, params.qlong],
+      askedLoc: [ params.alat, params.along],
+      answeredDistance: parmas.dist,
+      expires: Date.now() + (60*60*1000)
+  });
+  question.save(function (err, question) {
+    if (err) { // TODO handle the error
+      console.log(err);
+    }
+    console.log('Saved' + question);
+  });
+  this.res.writeHead(201, { 'Location': 'http://' + this.req.headers.host + this.req.url + '/' + question._id });
+  this.res.end();
+}
+
+function vote(id, amount, model) {
+  model.findById(id, function (err, item) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }// TODO handle err
+    item.meta.votes += amount;
+    item.save(function (err, question) {
+      if (err) { // TODO handle the error
+        console.log(err);
+      }
+      console.log('Saved upvote on ' + id);
     });
+  });
+}
+
+function voteAnswer(id, answerId, amount) {
+  Question.findOne({_id: id, 'answers._id': answerId}, {'answers.$': 1}, function(err, question) {
+    question.answers[0].meta.votes += amount;
     question.save(function (err, question) {
-          if (err) // TODO handle the error
-          console.log('Saved' + question);
+      if (err) { // TODO handle the error
+        console.log(err);
+      }
+      console.log('Saved upvote on answer ' + id);
     });
+  });
+}
+
+function redirect(id, res, req) {
+  res.writeHead(201, { 'Location': 'http://' + req.headers.host + req.url + '/' + id });
+  res.end();
+}
+
+function answerUpvote(id, answerId) {
+  voteAnswer(id, answerId, 1);
+  redirect(id, this.res, this.req);
+}
+
+function answerDownvote(id) {
+  voteAnswer(id, answerId, -1);
+  redirect(id, this.res, this.req);
+}
+
+function upvote(id) {
+  vote(id, 1, Question);
+  redirect(id, this.res, this.req);
+}
+
+function downvote(id) {
+  vote(id, -1, Question);
+  redirect(id, this.res, this.req);
+}
+
+function addAnswer(id) {
+  var res = this.res;
+  var req = this.req;
+  var params = req.body
+  Question.findById(id, function (err, question) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }// TODO handle err
+    question.answer(params.answer, [params.alat, params.along])
+    question.save(function (err, question) {
+      if (err) { // TODO handle the error
+        console.log(err);
+      }
+      console.log('Adding answer for ' + question);
+    });
+    redirect(id, res, req);
+  });
+}
+
+function geoList(res, lat, long) {
+  console.log('Listing questions near ' + lat + ' ' + long);
+
+  var point = { type : "Point", coordinates : [lat, long] };
+  Question.geoNear(point, { limit: 20, spherical : true, maxDistance : 5 }, function(err, questions, stats) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }// TODO handle err
+    res.end(JSON.stringify(questions));
+  });
+}
+
+function simpleList(res) {
+  console.log('Listing questions');
+  Question.find(function (err, questions) {
+    if (err) {
+      console.log(err);
+      res.end('Error');
+    }
+    res.end(JSON.stringify(questions));
+  }).limit(20);
 }
 
 function list() {
@@ -57,22 +160,17 @@ function list() {
   var url = require('url');
   var query = url.parse(this.req.url, true).query;
 
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  console.log('Listing questions near ' + query.lat + ' ' + query.long);
-
-  var point = { type : "Point", coordinates : [Number(query.lat), Number(query.long)] };
-  Question.geoNear(point, { spherical : true, maxDistance : 5 }, function(err, questions, stats) {
-    if (err) {
-      console.log(err);
-      res.end('Error');
-    }// TODO handle err
-    console.log(stats);
-    res.end(JSON.stringify(questions));
-  });
+  res.writeHead(200, { 'Content-Type': 'application/json' })
+  if (query.lat != null && query.long != null) {
+    geoList(res, Number(query.lat), Number(query.long));
+  } else {
+    simpleList(res);
+  }
 }
 
-function get(res, id) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
+function get(id) {
+  res = this.res;
+  res.writeHead(200, { 'Content-Type': 'application/json' })
   console.log('Getting question ' + id);
   Question.findById(id, function (err, questions) {
     if (err) {
@@ -91,3 +189,8 @@ db.once('open', questions);
 module.exports.list = list;
 module.exports.add = add;
 module.exports.get = get;
+module.exports.addAnswer = addAnswer;
+module.exports.upvote = upvote;
+module.exports.downvote = downvote;
+module.exports.answerUpvote = answerUpvote;
+module.exports.answerDownvote = answerDownvote;
