@@ -1,19 +1,19 @@
 // https://github.com/nko4/website/blob/master/module/README.md#nodejs-knockout-deploy-check-ins
 require('nko')('QMLS8jPgYcA-HloS');
 
+// npm modules
 var async          = require('async'),
+    director       = require('director'),
     http           = require('http'),
     qs             = require('querystring'),
     rest           = require('restler'),
     socketio       = require('socket.io'),
     staticContent  = require('send');
 
-var isProduction = (process.env.NODE_ENV === 'production');
+// our modules
+var question       = require('./backend/question');
 
-var http = require('http');
-var question = require('./backend/question');
-var director = require('director');
-var staticContent  = require('send');
+var isProduction = (process.env.NODE_ENV === 'production');
 var port = (isProduction ? 80 : 8000);
 
 function staticContent() {

@@ -14,8 +14,10 @@
   "dependencies": {
     "async": "latest",
     "bower": "latest",
+    "director": "latest",
     "gravatar": "latest",
     "grunt": "~0.4.1",
+    "mongoose": "latest",
     "nko": "*",
     "querystring": "latest",
     "send": "latest",
