@@ -43,13 +43,17 @@ var router = new director.http.Router({
     '/api/v1': {
         '/question': {
             '/:id': {
-                '/:answerId': {
-                  '/downvote': {
-                        get: question.answerDownvote,
-                  },
-                  '/upvote': {
-                        get: question.answerUpvote,
-                  },
+                '/answer': {
+                    '/:answerId': {
+                        '/downvote': {
+                            get: question.answerDownvote,
+                        },
+                        '/upvote': {
+                            get: question.answerUpvote,
+                        },
+                    },
+                    put: question.addAnswer,
+                    post: question.addAnswer
                 },
                 '/downvote': {
                     get: question.downvote,
@@ -57,9 +61,7 @@ var router = new director.http.Router({
                 '/upvote': {
                     get: question.upvote,
                 },
-                get: question.get,
-                put: question.addAnswer,
-                post: question.addAnswer
+                get: question.get
             },
             get: question.list,
             put: question.add,

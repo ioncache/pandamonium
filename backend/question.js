@@ -107,7 +107,7 @@ function downvote(id) {
 }
 
 function savingLog(err, question, msg) {
-  if (err) // TODO handle the error
+  if (err) {} // TODO handle the error
   console.log('Adding answer for ' + question);
 }
 
@@ -116,8 +116,10 @@ function addAnswer(id) {
   var req = this.req;
   var params = req.body
   Question.findById(id, function (err, question) {
-    if (err) // TODO handle err
-    question.answer(params.answer, [params.alat, params.along])
+    if (err) {
+        console.log(err);
+    }
+    question.answer(params.answer, [params.alat, params.along]);
     question.save(savingLog);
     redirect(id, res, req);
   });
@@ -125,7 +127,7 @@ function addAnswer(id) {
 
 function geoList(res, lat, long) {
   Question.geoNear({ type : "Point", coordinates : [lat, long] }, { limit: 20, spherical : true, maxDistance : 5 }, function(err, questions, stats) {
-    if (err) // TODO handle err
+    if (err) {} // TODO handle err
     console.log('Listing questions near ' + lat + ' ' + long);
     res.end(JSON.stringify(questions));
   });
@@ -141,7 +143,6 @@ function simpleList(res) {
         e.id = e._id;
     });
 
-    console.log('Listing questions');
     res.end(JSON.stringify(questions));
   }).limit(20);
 }
@@ -163,7 +164,7 @@ function get(id) {
   res = this.res;
   res.writeHead(200, { 'Content-Type': 'application/json' })
   Question.findById(id, function (err, questions) {
-    if (err) // TODO handle err
+    if (err) {} // TODO handle err
     questions = _.map(questions, function(v, k, l) {
         v.id = v._id;
         return v;
