@@ -62,10 +62,10 @@ function add() {
 
 function vote(id, amount, model) {
   model.findById(id, function (err, item) {
-    if (err) // TODO handle err
+    if (err) {} // TODO handle err
     item.meta.votes += amount;
     item.save(function (err, question) {
-      if (err) // TODO handle the error
+      if (err) {} // TODO handle the error
       console.log('Saved upvote on ' + id);
     });
   });
@@ -97,6 +97,7 @@ function answerDownvote(id, answerId) {
 }
 
 function upvote(id) {
+  console.log("lololol: " + id);
   vote(id, 1, Question);
   redirect(id, this.res, this.req);
 }
