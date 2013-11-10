@@ -2,7 +2,14 @@
 
 var app = angular.module('pandamoniumApp');
 
-app.controller('MainCtrl', function ($scope,$sanitize,$rootScope) {
+app.controller('MainCtrl', function ($scope, $sanitize, $resource, $rootScope) {
+    $rootScope.controller = 'MainCtrl';
+
+    var Question = $resource('/api/v1/question/:id', { id: '@id' });
+    var recentQuestionInterval = setInterval( function() {
+        $scope.questions = Question.query();
+    }, 1000);
+
   $scope.locationSelect = {
      minimumInputLength: 1,
      ajax: {
