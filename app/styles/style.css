@@ -30,6 +30,9 @@ body {
   width: inherit;
 }
 
+.message {
+  cursor: pointer;
+}
 
 .message-left {
   width: inherit;
@@ -93,4 +96,21 @@ body {
 
 .sub-nav .filter {
   margin: 5px 0;
+}
+
+.voteControl {
+  margin: 0;
+  position: relative;
+  top: 13px;
+  margin-left: 30px;
+}
+
+.locationSelect {
+  margin-bottom: 10px;
+}
+
+@media ( min-width: 768px ) {
+  .voteControl {
+    float: right;
+  }
 }

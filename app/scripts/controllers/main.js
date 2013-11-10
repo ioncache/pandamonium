@@ -6,8 +6,32 @@ app.controller('MainCtrl', function ($scope, $sanitize, $resource, $rootScope, $
     $rootScope.controller = 'MainCtrl';
 
     var Question = $resource('/api/v1/question/:id', { id: '@id' });
+    $scope.questions = Question.query();
+
     var recentQuestionInterval = setInterval( function() {
-        $scope.questions = Question.query();
+        var newQuestions = Question.query();
+        var currentIds = _.pluck($scope.questions, 'id');
+
+        var differentQuestions = _.filter(newQuestions, function(item) {
+            return !_.contains(currentIds, item.id);
+        });
+
+        if ( differentQuestions.length > 0 ) {
+            var numToRemove = differentQuestions.length + $scope.questions.length - 20;
+
+            if ( numToRemove <= 0 ) {
+                for ( var i = 0 ; i < differentQuestions.length ; i++ ) {
+                    $scope.questions.push(differentQuestions.shift());
+                }
+            }
+            else {
+                for ( var i = 0 ; i < numToRemove ; i++ ) {
+                    $scope.questions.shift();
+                    $scope.questions.push(differentQuestions.shift());
+                }
+            }
+        }
+
     }, 1000);
     
     $scope.locationSelect = {
