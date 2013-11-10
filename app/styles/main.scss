@@ -147,8 +147,15 @@ body {
 
 #askInput {
     display: inline-block;
+    width: 78%;
     max-width: 78%;
     margin: 0 2%;
+}
+
+#targetInput {
+    width: 94%;
+    max-width: 94%;
+    margin: 0 3%;
 }
 
 #askButton {
