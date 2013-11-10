@@ -21,7 +21,8 @@
     "nko": "*",
     "querystring": "latest",
     "send": "latest",
-    "socket.io": "latest"
+    "socket.io": "latest",
+    "url": "latest"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
