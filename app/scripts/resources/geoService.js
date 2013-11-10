@@ -6,7 +6,6 @@ app.factory('GeoService', ['$q', '$rootScope', function($q, $rootScope) {
   return function() {
     
     $rootScope.changeLocation = function(coords) {
-      console.log(coords);
       $rootScope.$broadcast("locationChanged", {
         coordinates: coords
       });

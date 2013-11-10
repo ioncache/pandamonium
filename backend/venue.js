@@ -1,7 +1,7 @@
 var http = require('https');
 var Venue = null; 
 
-function list(lat,lng,opts) {
+function list(lat,lng,opts,res) {
   var str = '';
   var options = {
     host: 'api.foursquare.com',
@@ -13,11 +13,10 @@ function list(lat,lng,opts) {
       '&intent=browse' +
       '&ll=' + lat + "," + lng 
   };
-  
   options.path = opts ? options.path += '&query=' + opts : options.path;
    
   console.log(options)
-  res = this.res;
+
   res.writeHead(200, { 'Content-Type': 'application/json' })
   
   http.request(options, function(response) {
