@@ -33,7 +33,7 @@ app.controller('GeoLocationCtrl', function ($scope, GeoService, $rootScope, $san
       formatSelection: locationFormatSelection      
     }).on('change', function(data) {
      data = $("#newLocation").select2("data");
-     if(data.venue){
+     if(data && data.venue){
        $('#qlat').val(data.venue.location.lat);
        $('#qlng').val(data.venue.location.lng);     
      }
