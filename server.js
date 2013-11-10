@@ -78,8 +78,10 @@ var router = new director.http.Router({
           '/:lat': {
             '/:lng': {
               get: venue.list,
-              '/:query': {
-                get: venue.list,
+              '/(.*)': {
+                get: function(lat, lng, query){
+                  venue.list(lat, lng, query, this.res);
+                },
               }          
             }
           }

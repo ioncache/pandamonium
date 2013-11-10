@@ -5,8 +5,7 @@ var app = angular.module('pandamoniumApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'btford.socket-io',
-  'ui.select2'  
+  'btford.socket-io'
 ]);
 
 app.config(function ($routeProvider) {

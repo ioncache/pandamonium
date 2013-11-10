@@ -14,8 +14,8 @@ app.controller('NavBarCtrl', function ($scope, $rootScope, $resource, $location,
         var Question = {};
 
         Question.q = $('#newQuestion').val();
-        Question.qlat = 74;
-        Question.qlong = -125;
+        Question.qlat = $('#qlat').val();
+        Question.qlong = $('#qlng').val();
         Question.alat = 75;
         Question.along = -122;
         Question.dist = 50;

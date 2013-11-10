@@ -6,8 +6,8 @@
     <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title></title>
-      <meta name="description" content="">
+      <title>Pandamonium</title>
+      <meta name="description" content="Find information about locations near you.">
       <meta name="viewport" content="width=device-width">
       <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
@@ -33,7 +33,8 @@
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="NavBarCtrl">
           <div class="container">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">Pandamonium</a>
+              <a class="navbar-brand" href="#"><img src="/images/panda.png" title="Pandamonium"style="position: absolute; border: 0; padding: 0; margin: 0; height: 28px; width: 28px; cursor: pointer;" /></a>
+              <iframe src="http://nodeknockout.com/iframe/pandamonium" frameborder=0 scrolling=no allowtransparency=true width=115 height=25 class="voteControl"></iframe>
     
               <div class="header-actions" style="float: right; padding: 10px; padding-right: 0;">
                 <div class="col-xs-1" ng-switch on="controller">
@@ -91,8 +92,6 @@
         <script src="bower_components/sass-bootstrap/js/tab.js"></script>
         <script src="bower_components/sass-bootstrap/js/tooltip.js"></script>
         <script src="bower_components/sass-bootstrap/js/popover.js"></script>
-        <script src="bower_components/select2/select2.js"></script>
-        <script src="bower_components/angular-ui-select2/src/select2.js"></script>
         <!-- endbuild -->
 
         <!-- build:js scripts/modules.js -->
@@ -123,7 +122,9 @@
         <script src="scripts/controllers/question.js"></script>
         <script src="scripts/controllers/recentQuestions.js"></script>
         <script src="scripts/controllers/replyQuestion.js"></script>
+        <script src="scripts/services/select2.min.js"></script>        
         <!-- endbuild -->
         <script src="https://d19p4zemcycm7a.cloudfront.net/w2/auth0-widget-1.3.4.min.js"></script>
+        
     </body>
 </html>

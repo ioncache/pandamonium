@@ -33,14 +33,15 @@ app.controller('MainCtrl', function ($scope, $sanitize, $resource, $rootScope, $
         }
 
     }, 1000);
-
+    
     $scope.locationSelect = {
+
         minimumInputLength: 1,
         ajax: {
             quietMillis: 50,
             url: function(data){
                 if($rootScope.coords){
-                  return "/api/v1/venues/explore/"+$rootScope.coords.latitude+"/"+$rootScope.coords.longitude+"/" + $sanitize(data);
+                  
                 }
             },
             data: function (term, page) {
@@ -52,7 +53,7 @@ app.controller('MainCtrl', function ($scope, $sanitize, $resource, $rootScope, $
         formatResult: locationFormatResult,
         formatSelection: locationFormatSelection
     }
-
+    
     $scope.viewQuestion = function(id) {
         $location.path('/question/' + id);
     }
