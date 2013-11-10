@@ -2,11 +2,28 @@
 
 var app = angular.module('pandamoniumApp');
 
-app.controller('MainCtrl', function ($scope, $sanitize, $resource, $rootScope, $location) {
+app.controller('MainCtrl', function ($scope, $http, $sanitize, $resource, $rootScope, $location) {
     $rootScope.controller = 'MainCtrl';
 
     var Question = $resource('/api/v1/question/:id', { id: '@id' });
     $scope.questions = Question.query();
+
+    $scope.replyQuestion = function($event,$question_id) {
+        $event.stopPropagation();
+        $location.path('/question/' + $question_id + '/reply');
+    };
+
+    $scope.voteQuestion = function($event,$question_id) {
+        $event.stopPropagation();
+
+        console.log('did somethign');
+        $http.get('/api/v1/question/' + $question_id + '/upvote');
+
+        /*
+        var upvote = $resource('/api/v1/question/:id/upvote',{ id: $question_id});
+        upvote.get($question_id);
+        */
+    };
 
     var recentQuestionInterval = setInterval( function() {
         var newQuestions = Question.query();
@@ -64,7 +81,7 @@ function locationFormatResult(location) {
 }
 
 function locationHash(location) {
-    var hashed = { 
+    var hashed = {
       "name": location.venue.name,
       "lat": location.venue.location ? location.venue.location.lat : '',
       "lng": location.venue.location ? location.venue.location.lng : ''
