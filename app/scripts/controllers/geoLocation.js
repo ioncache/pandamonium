@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('pandamoniumApp');
-var json, item, location, place;
+var json, item, location, place, data;
 var places = [];
 app.controller('GeoLocationCtrl', function ($scope, GeoService, $rootScope, $sanitize, $http) {
     GeoService();
@@ -31,8 +31,15 @@ app.controller('GeoLocationCtrl', function ($scope, GeoService, $rootScope, $san
       },
       formatResult: locationFormatResult,
       formatSelection: locationFormatSelection      
-    });
-    
+    }).on('change', function(data) {
+     data = $("#newLocation").select2("data");
+     if(data.venue){
+       $('#qlat').val(data.venue.location.lat);
+       $('#qlng').val(data.venue.location.lng);     
+     }
+    }).trigger('change');
+
+
   
     $scope.change = function(){
       var queryString = $scope.GeoService;
