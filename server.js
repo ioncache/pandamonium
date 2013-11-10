@@ -68,12 +68,6 @@ var router = new director.http.Router({
             put: question.add,
             post: question.add,
         },
-        '/user': {
-            '/:id': {
-                get: question.listByUser
-            },
-            get: question.listByUser
-        },
         '/venues/explore': {
           '/:lat': {
             '/:lng': {
