@@ -1,18 +1,22 @@
 var http = require('https');
 var Venue = null; 
 
-function list(lat,lng) {
+function list(lat,lng,opts) {
   var str = '';
   var options = {
     host: 'api.foursquare.com',
     port: 443,
     path: '/v2/venues/explore?' + 
       '&client_id=' + process.env.FOURSQ_CLIENT_ID + 
-      '&client_secret=' + process.env.FOURSQ_CLIENT_SECRET + 
+      '&client_secret=' + process.env.FOURSQ_CLIENT_SECRET +
       '&v=20131110' +
+      '&intent=browse' +
       '&ll=' + lat + "," + lng 
   };
-
+  
+  options.path = opts ? options.path += '&query=' + opts : options.path;
+   
+  console.log(options)
   res = this.res;
   res.writeHead(200, { 'Content-Type': 'application/json' })
   
@@ -25,16 +29,6 @@ function list(lat,lng) {
       res.end(JSON.stringify(str));
     });
   }).end()
-}
-
-function get(id) {
-  res = this.res;
-  res.writeHead(200, { 'Content-Type': 'application/json' })
-  Question.findById(id, function (err, questions) {
-    if (err) // TODO handle err
-    console.log('Getting question ' + id);
-    res.end(JSON.stringify(questions));
-  });
 }
 
 module.exports.list = list;

@@ -1,0 +1,65 @@
+<!-- read question screen starts -->
+<div class="container read-question">
+  <div class="row" style="margin-bottom: 25px;">
+
+    <div class="col-xs-2">
+      <h3 class="user-avatar">
+        <span class="label label-warning">A</span>
+      </h3>
+    </div>
+
+    <div class="col-xs-10 user-message-info">
+      <h6>
+        Anonymous
+        <span class="label label-default">
+          <span class="text-white" style="color: yellow"><i class="fa fa-star"></i></span> {{question.meta.votes}}
+        </span>
+      </h6>
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-bottom: 20px;">
+    <div class="col-xs-12">
+      <p>{{question.query}}</p>
+    </div>
+  </div>
+
+  <h6>Replies <span class="badge">{{question.answers.length}}</span></h6>
+  <div class="row">
+    <ul class="list-group no-rounded-corners">
+
+      <!-- reply start -->
+      <li class="list-group-item message" ng-repeat="answer in question.answers">
+
+        <div class="row message-content">
+
+          <div class="col-xs-2 message-info">
+            <h3 class="user-avatar">
+              <span class="label label-success">C</span>
+            </h3>
+          </div>
+
+          <div class="col-xs-10 message-body">
+            <div class="row message-body-head">
+              <h6>Cory Borg
+                <span class="label label-default"><i class="fa fa-star"></i> {{answer.meta.votes}}</span>
+                <span class="label label-default"><i class="fa fa-camera"></i></span>
+                <span class="label label-success"><i class="fa fa-check"></i></span>
+              </h6>
+            </div>
+
+            <div class="row message-body-content">
+              <p>{{answer.body}}</p>
+            </div>
+
+          </div>
+
+        </div>
+      </li>
+      <!-- reply end -->
+
+    </ul>
+  </div>
+</div>
+<!-- read question screen ends -->

@@ -35,7 +35,7 @@ app.factory('GeoService', ['$q', '$rootScope', function($q, $rootScope) {
       } catch (err) {
         defer.reject(err);
       }
-    }, 1000);
+    }, 500);
     return defer.promise;
   };
 }]);

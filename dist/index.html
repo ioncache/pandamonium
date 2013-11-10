@@ -11,7 +11,7 @@
       <meta name="viewport" content="width=device-width">
       <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-          <link rel="stylesheet" href="styles/3fdb000b.main.css"/>
+          <link rel="stylesheet" href="styles/08ce2b1b.main.css"/>
     </head>
     <body ng-app="pandamoniumApp">
         <!--[if lt IE 7]>
@@ -23,10 +23,40 @@
           <script src="bower_components/json3/lib/json3.min.js"></script>
         <![endif]-->
 
-        <div ng-include="" src="'views/partials/login.html'"></div>
+        <!-- nav start -->
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="NavBarCtrl">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Pandamonium</a>
+    
+              <div class="header-actions" style="float: right; padding: 10px; padding-right: 0">
+                <div class="col-xs-1" ng-switch="" on="controller">
+
+                  <!-- new question button start -->
+                  <button type="button" class="btn btn-sm btn-success" ng-click="saveQuestion()" ng-switch-when="AddQuestionCtrl">Post</button>
+                  <!-- new question button end -->
+    
+                  <!-- new question button start -->
+                  <button type="button" class="btn btn-sm btn-success" ng-click="addQuestion()" ng-switch-when="MainCtrl"><i class="fa fa-plus"></i></button>
+                  <!-- new question button end -->
+    
+                  <!-- reply to question button start -->
+                  <button type="button" class="btn btn-sm btn-success" ng-click="replyQuestion()" ng-switch-when="QuestionCtrl"><i class="fa fa-reply"></i> Reply</button>
+                  <!-- reply to question button end -->
+    
+                  <!-- send reply button start -->
+                  <button type="button" class="btn btn-sm btn-success" ng-click="replyToQuestion()" ng-switch-when="ReplyQuestionCtrl">Post Reply</button>
+                  <!-- send reply button end -->
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+        <!-- nav end -->
 
         <!-- Add your site or application content here -->
-        <div class="container" ng-view=""></div>
+        <div ng-view=""></div>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
         <script>
@@ -42,11 +72,11 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="bower_components/angular/angular.js"></script>
 
-        <script src="scripts/3233641e.plugins.js"></script>
+        <script src="scripts/e39955a0.plugins.js"></script>
 
         <script src="scripts/753c952a.modules.js"></script>
 
-        <script src="scripts/88cda53c.scripts.js"></script>
+        <script src="scripts/9bac2493.scripts.js"></script>
         <script src="https://d19p4zemcycm7a.cloudfront.net/w2/auth0-widget-1.3.4.min.js"></script>
     </body>
 </html>
